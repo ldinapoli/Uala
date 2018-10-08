@@ -72,7 +72,7 @@ public class BooksListViewAdapter extends ArrayAdapter<Book> {
         if (!bookModel.getImage().equals(""))
             Picasso.get()
                     .load(bookModel.getImage())
-                    .resize(50, 50)
+                    .resize(150, 150)
                     .centerCrop()
                     .into(viewHolder.ivImage);
 
