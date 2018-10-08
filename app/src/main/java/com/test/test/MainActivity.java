@@ -11,6 +11,8 @@ import com.test.test.Adapters.BooksListViewAdapter;
 import com.test.test.Entities.Book;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements OnTaskCompleted {
@@ -41,6 +43,12 @@ public class MainActivity extends AppCompatActivity implements OnTaskCompleted {
     @Override
     public void onTaskCompleted(List<Book> books) {
         bookList = books;
+        Collections.sort(bookList, new Comparator<Book>() {
+            @Override
+            public int compare(Book o1, Book o2) {
+                return Integer.valueOf(o2.getPopularity()).compareTo(o1.getPopularity());
+            }
+        });
         BooksListViewAdapter adapter = new BooksListViewAdapter(bookList, this);
         listView.setAdapter(adapter);
     }

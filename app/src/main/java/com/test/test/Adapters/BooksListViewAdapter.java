@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.test.test.Entities.Book;
 import com.test.test.R;
 
@@ -21,6 +23,10 @@ public class BooksListViewAdapter extends ArrayAdapter<Book> {
 
     private static class ViewHolder {
         TextView txtName;
+        TextView txtAuthor;
+        TextView txtpopularity;
+        TextView txtavailability;
+        ImageView ivImage;
     }
 
     public BooksListViewAdapter(List<Book> data, Context context) {
@@ -43,6 +49,10 @@ public class BooksListViewAdapter extends ArrayAdapter<Book> {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.books_list_view_row, parent, false);
             viewHolder.txtName = (TextView) convertView.findViewById(R.id.name);
+            viewHolder.txtAuthor = (TextView) convertView.findViewById(R.id.author);
+            viewHolder.txtavailability = (TextView) convertView.findViewById(R.id.availability);
+            viewHolder.txtpopularity = (TextView) convertView.findViewById(R.id.popularity);
+            viewHolder.ivImage = (ImageView) convertView.findViewById(R.id.image);
 
 
             convertView.setTag(viewHolder);
@@ -51,7 +61,21 @@ public class BooksListViewAdapter extends ArrayAdapter<Book> {
         }
 
         viewHolder.txtName.setText(bookModel.getName());
-        // Return the completed view to render on screen
+        viewHolder.txtAuthor.setText("Autor: " + bookModel.getAuthor());
+        viewHolder.txtpopularity.setText("Popularidad: " + bookModel.getPopularity());
+        if (bookModel.isAvailability()) {
+            viewHolder.txtavailability.setText("DISPONIBLE");
+        } else {
+            viewHolder.txtavailability.setText("NO DISPONIBLE");
+        }
+
+        if (!bookModel.getImage().equals(""))
+            Picasso.get()
+                    .load(bookModel.getImage())
+                    .resize(50, 50)
+                    .centerCrop()
+                    .into(viewHolder.ivImage);
+
         return convertView;
     }
 }
